@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLEARPDF_webAPI2", "CLEARPDF_webAPI2\CLEARPDF_webAPI2.csproj", "{0AFEC484-2758-4B55-AFF5-F7927411C723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMeta", "PDFMeta\PDFMeta.csproj", "{565CD8E5-3FD7-40C1-AD89-1005294E309D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMetaObj", "PDFMetaObj\PDFMetaObj.csproj", "{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AFEC484-2758-4B55-AFF5-F7927411C723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AFEC484-2758-4B55-AFF5-F7927411C723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AFEC484-2758-4B55-AFF5-F7927411C723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AFEC484-2758-4B55-AFF5-F7927411C723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{565CD8E5-3FD7-40C1-AD89-1005294E309D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565CD8E5-3FD7-40C1-AD89-1005294E309D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565CD8E5-3FD7-40C1-AD89-1005294E309D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565CD8E5-3FD7-40C1-AD89-1005294E309D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
