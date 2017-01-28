@@ -27,7 +27,13 @@ namespace PDFMeta
         public class textMapField
         {
             [XmlAttribute]
-            public bool isConcat;
+            public bool isConcat = false;
+
+            [XmlAttribute]
+            public bool isEntityRef = false;
+
+            [XmlAttribute]
+            public bool isDate;
 
             public string crmAttributeName;
             public string acroFieldName;
