@@ -21,7 +21,6 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Client;
 
-using PDFMeta;
 
 
 namespace CLEARPDF_webAPI2.Controllers
@@ -226,6 +225,8 @@ namespace CLEARPDF_webAPI2.Controllers
                 return errorResult;
             }
         }
+
+        //private List<>
     }
 }
 
