@@ -20,6 +20,7 @@ namespace PDFMeta
         {
 
             /*  SAMPLE subGrid PDF MetaObj  */
+            /*
             PDFFillMeta templateXML = new PDFFillMeta();
 
             templateXML.isSubPDF = true;
@@ -62,8 +63,9 @@ namespace PDFMeta
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
+            */
             /*  SAMPLE PDFFill MetaObj    */
-            /*
+            
             PDFFillMeta templateXML = new PDFFillMeta();
             List<string> sampleList1 = new List<string>();
             sampleList1.Add("pg1-1 type of comm/oh-can");
@@ -110,7 +112,7 @@ namespace PDFMeta
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
-            */
+            
         }
     }
 

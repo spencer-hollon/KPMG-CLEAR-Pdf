@@ -50,7 +50,10 @@ namespace PDFMeta
 
         public class subGridPDF
         {
+            [XmlAttribute]
             public string relatedEntityName;
+
+            [XmlAttribute]
             public string relatedPDF;
         }
 
