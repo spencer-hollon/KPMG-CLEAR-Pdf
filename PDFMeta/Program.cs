@@ -67,6 +67,9 @@ namespace PDFMeta
             /*  SAMPLE PDFFill MetaObj    */
             
             PDFFillMeta templateXML = new PDFFillMeta();
+            templateXML.CRMEntityName = "clear_campaignstatement";
+            templateXML.PDFFileName = "casos460";
+
             List<string> sampleList1 = new List<string>();
             sampleList1.Add("pg1-1 type of comm/oh-can");
             sampleList1.Add("pg1-1 type of comm/oh-can/state");

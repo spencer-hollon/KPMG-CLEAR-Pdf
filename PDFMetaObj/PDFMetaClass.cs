@@ -12,6 +12,12 @@ namespace PDFMeta
     public class PDFFillMeta
     {
         [XmlAttribute]
+        public string CRMEntityName;
+
+        [XmlAttribute]
+        public string PDFFileName;
+
+        [XmlAttribute]
         public bool isSubPDF = new bool();
         [XmlAttribute]
         public int numSubGridRow;
