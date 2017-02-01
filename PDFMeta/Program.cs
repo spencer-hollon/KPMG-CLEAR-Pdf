@@ -20,52 +20,228 @@ namespace PDFMeta
         {
 
             /*  SAMPLE subGrid PDF MetaObj  */
-            /*
+            
             PDFFillMeta templateXML = new PDFFillMeta();
+            templateXML.CRMEntityName = "clear_monetarycontributions";
+            templateXML.PDFFileName = "460SchedA";
+
 
             templateXML.isSubPDF = true;
             templateXML.numSubGridRow = 2;
 
             PDFFillMeta.textMapField sampleText1 = new PDFFillMeta.textMapField();
-            sampleText1.crmAttributeName = "parent.clear_listidnumber";
+            sampleText1.crmAttributeName = "clear_listidnumber";
+            sampleText1.isParentAttr = true;
             sampleText1.acroFieldName = "pg1-3 Comm ID#";
-
             templateXML.textFields.Add(sampleText1);
 
-            PDFFillMeta.subGridColumn row1Column1 = new PDFFillMeta.subGridColumn();
-            row1Column1.isConditional = false;
-            row1Column1.textField.crmAttributeName = "clear_datereceived";
-            row1Column1.textField.acroFieldName = "pg4-Sch A/date1";
+            PDFFillMeta.textMapField sampleText2 = new PDFFillMeta.textMapField();
+            sampleText2.crmAttributeName = "parent.clear_listidnumber";
+            sampleText2.acroFieldName = "pg3/name of filer";
+            templateXML.textFields.Add(sampleText2);
 
-            PDFFillMeta.subGridColumn row1Column2 = new PDFFillMeta.subGridColumn();
-            row1Column2.isConditional = true;
-            row1Column2.checkField.crmAttributeName = "clear_contributorcode";
-            PDFFillMeta.conditionalMap column2Map1 = new PDFFillMeta.conditionalMap();
-            column2Map1.keyVal = 409830000;
-            List<string> sampleCheckFieldList = new List<string>();
-            sampleCheckFieldList.Add("pg4-Sch A/cc/ind1");
-            column2Map1.fieldList = sampleCheckFieldList;
-            row1Column2.checkField.conditionalsList.Add(column2Map1);
+            PDFFillMeta.textMapField sampleTextFielda = new PDFFillMeta.textMapField();
+            sampleTextFielda.crmAttributeName = "clear_committeename";
+            sampleTextFielda.acroFieldName = "pg1-3 comm name";
+            sampleTextFielda.isParentAttr = true;
+            sampleTextFielda.isEntityRef = true;
+            templateXML.textFields.Add(sampleTextFielda);
 
+            PDFFillMeta.textMapField sampleTextFieldb = new PDFFillMeta.textMapField();
+            sampleTextFieldb.crmAttributeName = "clear_statementperiodfrom";
+            sampleTextFieldb.acroFieldName = "pg1-stmt cvrs - from";
+            sampleTextFieldb.isParentAttr = true;
+            sampleTextFieldb.isDate = true;
+            templateXML.textFields.Add(sampleTextFieldb);
 
-            PDFFillMeta.conditionalMap column2Map2 = new PDFFillMeta.conditionalMap();
-            column2Map2.keyVal = 40983000;
-            List<string> sampleCheckFieldList2 = new List<string>();
-            sampleCheckFieldList2.Add("pg4-Sch A/cc/comm1");
-            column2Map2.fieldList = sampleCheckFieldList2;
-            row1Column2.checkField.conditionalsList.Add(column2Map2);
+            PDFFillMeta.textMapField sampleTextFieldc = new PDFFillMeta.textMapField();
+            sampleTextFieldc.crmAttributeName = "clear_statementperiodthrough";
+            sampleTextFieldc.acroFieldName = "pg1-stmt cvrs - through";
+            sampleTextFieldc.isParentAttr = true;
+            sampleTextFieldc.isDate = true;
+            templateXML.textFields.Add(sampleTextFieldc);
+
 
             PDFFillMeta.subGridRow row1 = new PDFFillMeta.subGridRow();
+
+            PDFFillMeta.subGridColumn row1Column1 = new PDFFillMeta.subGridColumn();
+            row1Column1.textField = new PDFFillMeta.textMapField();
+            row1Column1.textField.crmAttributeName = "clear_datereceived";
+            row1Column1.textField.acroFieldName = "pg4-Sch A/date1";
             row1.rowMap.Add(row1Column1);
+
+            PDFFillMeta.subGridColumn row1Column2 = new PDFFillMeta.subGridColumn();
+            row1Column2.textField = new PDFFillMeta.textMapField();
+            row1Column2.textField.isConcat = true;
+            row1Column2.textField.crmAttributeName = "clear_name+clear_contributoraddress+clear_city_text+clear_state_text+clear_zipcode";
+            row1Column2.textField.acroFieldName = "pg4-Sch A/name & address1";
             row1.rowMap.Add(row1Column2);
 
+            PDFFillMeta.subGridColumn row1Column3 = new PDFFillMeta.subGridColumn();
+            row1Column3.checkField = new PDFFillMeta.conditionalCheckbox();
+            row1Column3.checkField.crmAttributeName = "clear_contributorcode";
+
+                PDFFillMeta.conditionalMap row1Column3Map1 = new PDFFillMeta.conditionalMap();
+                row1Column3Map1.keyVal = 409830000;
+                List<string> sampleCheckFieldList = new List<string>();
+                sampleCheckFieldList.Add("pg4-Sch A/cc/ind1");
+                row1Column3Map1.fieldList = sampleCheckFieldList;
+                row1Column3.checkField.conditionalsList.Add(row1Column3Map1);
+
+                PDFFillMeta.conditionalMap row1Column3Map2 = new PDFFillMeta.conditionalMap();
+                row1Column3Map1.keyVal = 409830001;
+                List<string> sampleCheckFieldList2 = new List<string>();
+                sampleCheckFieldList2.Add("pg4-Sch A/cc/comm1");
+                row1Column3Map2.fieldList = sampleCheckFieldList2;
+                row1Column3.checkField.conditionalsList.Add(row1Column3Map1);
+
+                PDFFillMeta.conditionalMap row1Column3Map3 = new PDFFillMeta.conditionalMap();
+                row1Column3Map3.keyVal = 409830002;
+                List<string> sampleCheckFieldList3 = new List<string>();
+                sampleCheckFieldList3.Add("pg4-Sch A/cc/oth1");
+                row1Column3Map3.fieldList = sampleCheckFieldList3;
+                row1Column3.checkField.conditionalsList.Add(row1Column3Map3);
+
+                PDFFillMeta.conditionalMap row1Column3Map4 = new PDFFillMeta.conditionalMap();
+                row1Column3Map4.keyVal = 409830003;
+                List<string> sampleCheckFieldList4 = new List<string>();
+                sampleCheckFieldList4.Add("pg4-Sch A/cc/pty1");
+                row1Column3Map4.fieldList = sampleCheckFieldList4;
+                row1Column3.checkField.conditionalsList.Add(row1Column3Map4);
+
+                PDFFillMeta.conditionalMap row1Column3Map5 = new PDFFillMeta.conditionalMap();
+                row1Column3Map5.keyVal = 409830004;
+                List<string> sampleCheckFieldList5 = new List<string>();
+                sampleCheckFieldList5.Add("pg4-Sch A/cc/scc1");
+                row1Column3Map5.fieldList = sampleCheckFieldList5;
+                row1Column3.checkField.conditionalsList.Add(row1Column3Map5);
+
+            row1.rowMap.Add(row1Column3);
+
+
+            PDFFillMeta.subGridColumn row1Column4 = new PDFFillMeta.subGridColumn();
+            row1Column4.textField = new PDFFillMeta.textMapField();
+            row1Column4.textField.isConcat = true;
+            row1Column4.textField.crmAttributeName = "clear_occupation+clear_employer";
+            row1Column4.textField.acroFieldName = "ppg4-Sch A/occup & emplyr1";
+            row1.rowMap.Add(row1Column4);
+
+            PDFFillMeta.subGridColumn row1Column5 = new PDFFillMeta.subGridColumn();
+            row1Column5.textField = new PDFFillMeta.textMapField();
+            row1Column5.textField.isMoney = true;
+            row1Column5.textField.crmAttributeName = "clear_amountreceived";
+            row1Column5.textField.acroFieldName = "pg4-Sch A/amt rec'd1";
+            row1.rowMap.Add(row1Column5);
+
+            PDFFillMeta.subGridColumn row1Column6 = new PDFFillMeta.subGridColumn();
+            row1Column6.textField = new PDFFillMeta.textMapField();
+            row1Column6.textField.isMoney= true;
+            row1Column6.textField.crmAttributeName = "clear_cumulativetodate";
+            row1Column6.textField.acroFieldName = "pg4-Sch A/cum cal yr1";
+            row1.rowMap.Add(row1Column6);
+
+            PDFFillMeta.subGridColumn row1Column7 = new PDFFillMeta.subGridColumn();
+            row1Column7.textField = new PDFFillMeta.textMapField();
+            row1Column7.textField.isMoney = true;
+            row1Column7.textField.crmAttributeName = "clear_perelectiontodate";
+            row1Column7.textField.acroFieldName = "pg4-Sch A/per elect1";
+            row1.rowMap.Add(row1Column7);
             templateXML.subGridRows.Add(row1);
+
+
+
+            PDFFillMeta.subGridRow row2 = new PDFFillMeta.subGridRow();
+
+            PDFFillMeta.subGridColumn row2Column1 = new PDFFillMeta.subGridColumn();
+            row2Column1.textField = new PDFFillMeta.textMapField();
+            row2Column1.textField.crmAttributeName = "clear_datereceived";
+            row2Column1.textField.acroFieldName = "pg4-Sch A/date2";
+            row2.rowMap.Add(row2Column1);
+
+            PDFFillMeta.subGridColumn row2Column2 = new PDFFillMeta.subGridColumn();
+            row2Column2.textField = new PDFFillMeta.textMapField();
+            row2Column2.textField.isConcat = true;
+            row2Column2.textField.crmAttributeName = "clear_name+clear_contributoraddress+clear_city_text+clear_state_text+clear_zipcode";
+            row2Column2.textField.acroFieldName = "pg4-Sch A/name & address2";
+            row2.rowMap.Add(row2Column2);
+
+            PDFFillMeta.subGridColumn row2Column3 = new PDFFillMeta.subGridColumn();
+            row2Column3.checkField = new PDFFillMeta.conditionalCheckbox();
+            row2Column3.checkField.crmAttributeName = "clear_contributorcode";
+
+            PDFFillMeta.conditionalMap row2Column3Map1 = new PDFFillMeta.conditionalMap();
+            row2Column3Map1.keyVal = 409830000;
+            List<string> sampleCheckFieldListaa = new List<string>();
+            sampleCheckFieldListaa.Add("pg4-Sch A/cc/ind2");
+            row2Column3Map1.fieldList = sampleCheckFieldListaa;
+            row2Column3.checkField.conditionalsList.Add(row2Column3Map1);
+
+            PDFFillMeta.conditionalMap row2Column3Map2 = new PDFFillMeta.conditionalMap();
+            row2Column3Map1.keyVal = 409830001;
+            List<string> sampleCheckFieldListab = new List<string>();
+            sampleCheckFieldListab.Add("pg4-Sch A/cc/comm2");
+            row2Column3Map2.fieldList = sampleCheckFieldListab;
+            row2Column3.checkField.conditionalsList.Add(row2Column3Map1);
+
+            PDFFillMeta.conditionalMap row2Column3Map3 = new PDFFillMeta.conditionalMap();
+            row2Column3Map3.keyVal = 409830002;
+            List<string> sampleCheckFieldListac = new List<string>();
+            sampleCheckFieldListac.Add("pg4-Sch A/cc/oth2");
+            row2Column3Map3.fieldList = sampleCheckFieldListac;
+            row2Column3.checkField.conditionalsList.Add(row2Column3Map3);
+
+            PDFFillMeta.conditionalMap row2Column3Map4 = new PDFFillMeta.conditionalMap();
+            row2Column3Map4.keyVal = 409830003;
+            List<string> sampleCheckFieldListad = new List<string>();
+            sampleCheckFieldListad.Add("pg4-Sch A/cc/pty2");
+            row2Column3Map4.fieldList = sampleCheckFieldListad;
+            row2Column3.checkField.conditionalsList.Add(row2Column3Map4);
+
+            PDFFillMeta.conditionalMap row2Column3Map5 = new PDFFillMeta.conditionalMap();
+            row2Column3Map5.keyVal = 409830004;
+            List<string> sampleCheckFieldListae = new List<string>();
+            sampleCheckFieldListae.Add("pg4-Sch A/cc/scc2");
+            row2Column3Map5.fieldList = sampleCheckFieldListae;
+            row2Column3.checkField.conditionalsList.Add(row2Column3Map5);
+
+            row2.rowMap.Add(row2Column3);
+
+
+            PDFFillMeta.subGridColumn row2Column4 = new PDFFillMeta.subGridColumn();
+            row2Column4.textField = new PDFFillMeta.textMapField();
+            row2Column4.textField.isConcat = true;
+            row2Column4.textField.crmAttributeName = "clear_occupation+clear_employer";
+            row2Column4.textField.acroFieldName = "pg4-Sch A/occup & emplyr1";
+            row2.rowMap.Add(row2Column4);
+
+            PDFFillMeta.subGridColumn row2Column5 = new PDFFillMeta.subGridColumn();
+            row2Column5.textField = new PDFFillMeta.textMapField();
+            row2Column5.textField.isMoney = true;
+            row2Column5.textField.crmAttributeName = "clear_amountreceived";
+            row2Column5.textField.acroFieldName = "pg4-Sch A/amt rec'd1";
+            row2.rowMap.Add(row2Column5);
+
+            PDFFillMeta.subGridColumn row2Column6 = new PDFFillMeta.subGridColumn();
+            row2Column6.textField = new PDFFillMeta.textMapField();
+            row2Column6.textField.isMoney = true;
+            row2Column6.textField.crmAttributeName = "clear_cumulativetodate";
+            row2Column6.textField.acroFieldName = "pg4-Sch A/cum cal yr1";
+            row2.rowMap.Add(row2Column6);
+
+            PDFFillMeta.subGridColumn row2Column7 = new PDFFillMeta.subGridColumn();
+            row2Column7.textField = new PDFFillMeta.textMapField();
+            row2Column7.textField.isMoney = true;
+            row2Column7.textField.crmAttributeName = "clear_perelectiontodate";
+            row2Column7.textField.acroFieldName = "pg4-Sch A/per elect1";
+            row2.rowMap.Add(row2Column7);
+            templateXML.subGridRows.Add(row2);
+
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
-            */
+
             /*  SAMPLE PDFFill MetaObj    */
-            
+            /*
             PDFFillMeta templateXML = new PDFFillMeta();
             templateXML.CRMEntityName = "clear_campaignstatement";
             templateXML.PDFFileName = "casos460";
@@ -207,7 +383,7 @@ namespace PDFMeta
             templateXML.conditionalCheckboxes.Add(sampleCondition1);
 
             PDFFillMeta.subGridPDF scheduleA = new PDFFillMeta.subGridPDF();
-            scheduleA.relatedEntityName = "460MoneyContrib";
+            scheduleA.relatedEntityName = "clear_monetarycontributions";
             scheduleA.relatedPDF = "460SchedA";
 
             templateXML.subGrids.Add(scheduleA);
@@ -215,7 +391,8 @@ namespace PDFMeta
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
-            
+            */
+
         }
     }
 

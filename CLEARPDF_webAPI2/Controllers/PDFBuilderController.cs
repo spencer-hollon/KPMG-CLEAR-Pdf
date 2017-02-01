@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Text;
 using PdfSharp;
 using PdfSharp.Pdf;
 
@@ -53,13 +54,16 @@ namespace CLEARPDF_webAPI2.Controllers
 
             try
             {
-                
-                
-                
-                
-                
-                
-                
+
+                //import the XML which describes the PDF files and mappings in strongly typed C# objects
+                BuildMetaObjs();
+
+                //Build Temporary files which the rest of the script will need 
+                BuildTempFiles();
+
+
+
+
                 /* CRM Connection Stuff */
                 //retrieve the login info for orgID from the config file
                 //during dev we will user array[0] and perform no orgChecking  
@@ -123,9 +127,20 @@ namespace CLEARPDF_webAPI2.Controllers
                                         var pdfFieldName = pdfFields[i].Name;
                                         if (pdfFieldName == textMap.acroFieldName)
                                         {
-                                            if (textMap.isConcat) { }
+                                            if (textMap.isConcat) {
+                                                //if this is a concat field that means the crmAttribute is a string of multiple CRM attribute names that need to be retrieved seperately and added together
+                                                StringBuilder toSetPDF = new StringBuilder();
+                                                string[] crmFields = textMap.crmAttributeName.Split(new char[] {','});   
+                                                foreach (string indCrmField in crmFields)
+                                                {
+                                                    toSetPDF.AppendLine((string)PrimaryRecord[indCrmField] + " " );
+                                                }
+                                                pdfFields[i].Value = new PdfSharp.Pdf.PdfString(toSetPDF.ToString());
+
+                                            }
                                             else if (textMap.isDate) { pdfFields[i].Value = new PdfSharp.Pdf.PdfString(((DateTime)PrimaryRecord[textMap.crmAttributeName]).ToShortDateString()); }
                                             else if (textMap.isEntityRef) { pdfFields[i].Value = new PdfSharp.Pdf.PdfString(((EntityReference)PrimaryRecord[textMap.crmAttributeName]).Name); }
+                                            else if (textMap.isMoney) { pdfFields[i].Value = new PdfSharp.Pdf.PdfString(((Money)PrimaryRecord[textMap.crmAttributeName]).ToString()); }
                                             else { pdfFields[i].Value = new PdfSharp.Pdf.PdfString((string)PrimaryRecord[textMap.crmAttributeName]); }
                                         }
 
@@ -226,6 +241,7 @@ namespace CLEARPDF_webAPI2.Controllers
                 // Open the output document
                 PdfDocument outputDocument = new PdfDocument();
 
+
                 // Iterate files
                 foreach (KeyValuePair<string, string> fileEntry in tempFiles)
                 {
@@ -266,7 +282,7 @@ namespace CLEARPDF_webAPI2.Controllers
                 PrimaryMeta = (PDFFillMeta)XMLer.Deserialize(xmlStream);
                 returnList.Add(PrimaryMeta);
             }
-
+            //get additional PDFFillMeta objects from related entities listed in the subGrids node of the primary XML file
             foreach (PDFFillMeta.subGridPDF subPDF in PrimaryMeta.subGrids)
             {
                 PDFFillMeta additionalMeta = new PDFFillMeta();

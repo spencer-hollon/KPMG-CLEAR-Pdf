@@ -39,7 +39,13 @@ namespace PDFMeta
             public bool isEntityRef = false;
 
             [XmlAttribute]
-            public bool isDate;
+            public bool isDate = false;
+
+            [XmlAttribute]
+            public bool isMoney = false;
+
+            [XmlAttribute]
+            public bool isParentAttr = false;
 
             public string crmAttributeName;
             public string acroFieldName;
@@ -76,10 +82,8 @@ namespace PDFMeta
 
         public class subGridColumn
         {
-            public bool isConditional;
-
-            public conditionalCheckbox checkField = new conditionalCheckbox();
-            public textMapField textField = new textMapField();
+            public conditionalCheckbox checkField;
+            public textMapField textField;
 
         }
 
