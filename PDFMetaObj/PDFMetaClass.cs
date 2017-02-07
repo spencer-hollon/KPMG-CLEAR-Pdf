@@ -15,19 +15,19 @@ namespace PDFMeta
         public string CRMEntityName;
 
         [XmlAttribute]
+        public string PrimaryEntityPrimaryKey;
+
+        [XmlAttribute]
         public string PDFFileName;
 
         [XmlAttribute]
-        public bool isSubPDF = new bool();
-        [XmlAttribute]
-        public int numSubGridRow;
-
+        public bool isSubPDF =false;
 
 
         public List<textMapField> textFields = new List<textMapField>();
         public List<conditionalCheckbox> conditionalCheckboxes = new List<conditionalCheckbox>();
         public List<subGridPDF> subGrids = new List<subGridPDF>();
-        public List<subGridRow> subGridRows = new List<subGridRow>();
+        
 
 
         public class textMapField
@@ -72,8 +72,14 @@ namespace PDFMeta
             public string relatedEntityName;
 
             [XmlAttribute]
+            public string relatedEntityKey;
+
+            [XmlAttribute]
             public string relatedPDF;
+
+            public List<subGridRow> subGridRows = new List<subGridRow>();
         }
+
 
         public class subGridRow
         {
@@ -82,8 +88,8 @@ namespace PDFMeta
 
         public class subGridColumn
         {
-            public conditionalCheckbox checkField;
-            public textMapField textField;
+            public conditionalCheckbox checkField = null;
+            public textMapField textField = null;
 
         }
 

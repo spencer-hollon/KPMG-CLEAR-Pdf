@@ -9,8 +9,11 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Text;
-using PdfSharp;
-using PdfSharp.Pdf;
+
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using iTextSharp.text.pdf.parser;
+
 
 using System.Configuration;
 using System.Security;
@@ -28,7 +31,7 @@ using PDFMeta;
 
 
 
-namespace CLEARPDF_webAPI2.Controllers
+namespace CLEARPDF_itext.Controllers
 {
     public class pdfApiController : ApiController
     {
@@ -36,7 +39,7 @@ namespace CLEARPDF_webAPI2.Controllers
         private OrganizationServiceProxy _serviceProxy;
         private string primaryPDFname;
         private List<PDFFillMeta> metaObjs = new List<PDFFillMeta>();
-        private Dictionary<string,string> tempFiles = new Dictionary<string, string>(); //Dictionary<string = CRMEntityName, string = FullPathTOTempPDF>
+        private Dictionary<string, string> tempFiles = new Dictionary<string, string>(); //Dictionary<string = CRMEntityName, string = FullPathTOTempPDF>
 
 
 
@@ -90,62 +93,62 @@ namespace CLEARPDF_webAPI2.Controllers
                     //return fileResult;
 
                     //iterate over the list of metaObjs filling the matching TempXML for each
-                    foreach (PDFFillMeta metaObj in metaObjs) {
+                    foreach (PDFFillMeta metaObj in metaObjs)
+                    {
                         //get the Primary record
                         Entity PrimaryRecord = getRecord(metaObj.CRMEntityName, new Guid(recordID));
-                        
 
+                        PdfReader PrimaryPDFReader = new PdfReader(tempFiles[metaObj.CRMEntityName]);
+                        string outputFilePath = tempFiles[metaObj.CRMEntityName] + "Output";
 
-                        using (PdfDocument pdfDoc = PdfSharp.Pdf.IO.PdfReader.Open(tempFiles[metaObj.CRMEntityName], PdfSharp.Pdf.IO.PdfDocumentOpenMode.Modify))
+                        using (PdfStamper stamper = new PdfStamper(PrimaryPDFReader, new FileStream(outputFilePath, FileMode.Create)))
                         {
                             //get a collection of acro fields out of the pdf template
-                            var pdfFields = pdfDoc.AcroForm.Fields;
-
-                            //  this if/else structure is necessary to allow the pre-poulated values to show on the PDF
-                            if (pdfDoc.AcroForm.Elements.ContainsKey("/NeedAppearances") == false)
-                            {
-                                pdfDoc.AcroForm.Elements.Add(
-                                    "/NeedAppearances",
-                                    new PdfSharp.Pdf.PdfBoolean(true));
-                            }
-                            else
-                            {
-                                pdfDoc.AcroForm.Elements["/NeedAppearances"] =
-                                    new PdfSharp.Pdf.PdfBoolean(true);
-                            }
-
+                            AcroFields pdfFields = stamper.AcroFields;
+                            var fieldNames = pdfFields.Fields.Keys;
 
                             //iterate over all the metaObj text fields
                             foreach (PDFFillMeta.textMapField textMap in metaObj.textFields)
                             {
                                 //iterate over acrofields in the PDF looking for match to current textMap
-                                for (int i = 0; i < pdfFields.Count(); i++)
+                                foreach (string fieldName in fieldNames)
                                 {
-                                    try
+                                    //Replace Address Form field with my custom data
+                                    if (fieldName == textMap.acroFieldName)
                                     {
-                                        //Get the current PDF field
-                                        var pdfFieldName = pdfFields[i].Name;
-                                        if (pdfFieldName == textMap.acroFieldName)
-                                        {
-                                            pdfFields[i].Value = mapTextField(textMap, PrimaryRecord);
-                                        }
+                                        pdfFields.SetField(fieldName, mapTextField(textMap,PrimaryRecord));
+                                    }
+                                }
 
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        throw new Exception("Error writing to PDF in memory <br>" + ex.Message);
-                                    }
-                                }//close for loop over acrofields
 
                             }//close foreach iterate over textmapfields
+
+                            //iterate over all the metaObj conditional checkboxes
+                            foreach (PDFFillMeta.conditionalCheckbox checkBox in metaObj.conditionalCheckboxes)
+                            {
+                                /*
+                                //iterate over acrofields in the PDF looking for match to current textMap
+                                foreach (string fieldName in fieldNames)
+                                {
+                                    //Replace Address Form field with my custom data
+                                    if (fieldName.Contains(checkBox.))
+                                    {
+                                        pdfFields.SetField(fieldName, mapTextField(textMap, PrimaryRecord));
+                                    }
+                                }
+                                */
+
+                            }//close foreach iterate over textmapfields
+
 
                             //if the PDF has a subgrid in it.
                             if (metaObj.subGrids.Count > 0)
                             {
-                              
-                              foreach (PDFFillMeta.subGridPDF subGrid in metaObj.subGrids) {
 
-                                    EntityCollection subRecords = getRelatedRecords(metaObj.CRMEntityName, metaObj.PrimaryEntityPrimaryKey,subGrid.relatedEntityName,subGrid.relatedEntityKey);
+                                foreach (PDFFillMeta.subGridPDF subGrid in metaObj.subGrids)
+                                {
+
+                                    EntityCollection subRecords = getRelatedRecords(metaObj.CRMEntityName, metaObj.PrimaryEntityPrimaryKey, subGrid.relatedEntityName, subGrid.relatedEntityKey);
                                     int counter = 0;
                                     foreach (PDFFillMeta.subGridRow row in subGrid.subGridRows)
                                     {
@@ -153,26 +156,10 @@ namespace CLEARPDF_webAPI2.Controllers
 
                                         foreach (PDFFillMeta.subGridColumn column in row.rowMap)
                                         {
-                                            if (column.textField != null) {
-
-
-                                                for (int i = 0; i < pdfFields.Count(); i++)
-                                                {
-                                                    try
-                                                    {
-                                                        //Get the current PDF field
-                                                        var pdfFieldName = pdfFields[i].Name;
-                                                        if (pdfFieldName == column.textField.acroFieldName)
-                                                        {
-                                                            pdfFields[i].Value = mapTextField(column.textField, PrimaryRecord);
-                                                        }
-
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        throw new Exception("Error writing to PDF in memory <br>" + ex.Message);
-                                                    }
-                                                }//close for loop over acrofields
+                                            if (column.textField != null)
+                                            {
+                                                //iterate over the 
+                                               
 
                                             }
                                         }
@@ -183,9 +170,18 @@ namespace CLEARPDF_webAPI2.Controllers
                                 }
                             }//close if isSubPDF
 
-                            pdfDoc.Save(tempFiles[metaObj.CRMEntityName]);
-                            pdfDoc.Close();
-                        }//close using PDFDoc
+                            stamper.Close();
+                        }//close using PdfStamper stamper
+
+                        PrimaryPDFReader.Close();
+                        PrimaryPDFReader.Dispose();
+                        //Delete the Temporary Template and replace with our new output file
+                        File.Delete(tempFiles[metaObj.CRMEntityName]);
+                        tempFiles[metaObj.CRMEntityName] = outputFilePath;
+
+
+
+
                     }//close foreach which iterates over the metaObjs
                      //only after PDF sharp has for sure disposed of the pdfDoc do we then read it back into memory for delivery to client
 
@@ -193,7 +189,7 @@ namespace CLEARPDF_webAPI2.Controllers
 
                     //merge the files together
                     //string pathToMergedFile = buildFinalTemp();
-                    
+
                     //instead of merging we will send the one file since this is POC
 
                     byte[] pdfFile = File.ReadAllBytes(tempFiles[metaObjs[0].CRMEntityName]);
@@ -201,28 +197,28 @@ namespace CLEARPDF_webAPI2.Controllers
 
 
                     //cleanup tempfiles
-                    //File.Delete(pathToTempFile);
+                    File.Delete(tempFiles[metaObjs[0].CRMEntityName]);
 
 
 
 
 
-                        //Send the final merged File to the Client
-                        HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                        result.Content = new StreamContent(pdfMemStream);
-                        result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
-                        result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                        result.Content.Headers.ContentDisposition.FileName = formName + ".pdf";
-                        //the following cookie is needed by the http://johnculviner.com/ file download jQuery plugin
-                        CookieHeaderValue fileDownloadCookie = new CookieHeaderValue("fileDownload", "true");
-                        fileDownloadCookie.Path = "/";
-                        List<CookieHeaderValue> cookieList = new List<CookieHeaderValue>();
-                        cookieList.Add(fileDownloadCookie);
+                    //Send the final merged File to the Client
+                    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                    result.Content = new StreamContent(pdfMemStream);
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
+                    result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    result.Content.Headers.ContentDisposition.FileName = formName + ".pdf";
+                    //the following cookie is needed by the http://johnculviner.com/ file download jQuery plugin
+                    CookieHeaderValue fileDownloadCookie = new CookieHeaderValue("fileDownload", "true");
+                    fileDownloadCookie.Path = "/";
+                    List<CookieHeaderValue> cookieList = new List<CookieHeaderValue>();
+                    cookieList.Add(fileDownloadCookie);
 
-                        result.Headers.AddCookies(cookieList);
-                        result.Headers.Add("Cache-Control", "max-age=60, must-revalidate");
+                    result.Headers.AddCookies(cookieList);
+                    result.Headers.Add("Cache-Control", "max-age=60, must-revalidate");
 
-                        return result;
+                    return result;
 
 
                     /*
@@ -242,7 +238,8 @@ namespace CLEARPDF_webAPI2.Controllers
             }
         }//close GetPDF
 
-        private void BuildTempFiles() {
+        private void BuildTempFiles()
+        {
             Random rnd = new Random();
 
             //iterate over the list of metaObjs and create a temp file for each.  fill the dictionary in the parent class with these items
@@ -264,8 +261,10 @@ namespace CLEARPDF_webAPI2.Controllers
         {
             try
             {
+               
                 Random rnd = new Random();
                 string pathFinalTemp = Environment.GetEnvironmentVariable("HOME").ToString() + "\\pdfTemplates\\temp" + primaryPDFname + rnd.Next(1, 98732).ToString() + ".pdf";
+                /*
                 // Open the output document
                 PdfDocument outputDocument = new PdfDocument();
 
@@ -304,14 +303,16 @@ namespace CLEARPDF_webAPI2.Controllers
 
                 outputDocument.Save(pathFinalTemp);
                 outputDocument.Close();
-
+                */
                 return pathFinalTemp;
+                
             }
-            catch (Exception err) {
+            catch (Exception err)
+            {
                 throw new Exception("Unable buildFinalTemp pdf <br> " + err.Message);
             }
         }
-        
+
         private void BuildMetaObjs()
         {
             List<PDFFillMeta> returnList = new List<PDFFillMeta>();
@@ -319,7 +320,8 @@ namespace CLEARPDF_webAPI2.Controllers
             XmlSerializer XMLer = new XmlSerializer(typeof(PDFFillMeta));
 
             //get the first PDFFillMeta using the name passed in the GET params of the original request
-            if (testReqFiles(primaryPDFname)) {
+            if (testReqFiles(primaryPDFname))
+            {
                 FileStream xmlStream = new FileStream(Environment.GetEnvironmentVariable("HOME").ToString() + "\\pdfTemplates\\" + primaryPDFname + ".xml", FileMode.Open);
                 PrimaryMeta = (PDFFillMeta)XMLer.Deserialize(xmlStream);
                 returnList.Add(PrimaryMeta);
@@ -384,22 +386,22 @@ namespace CLEARPDF_webAPI2.Controllers
                      </entity> 
                    </fetch> ";
 
-                string fetchXML = String.Format(fetchTemplate,relatedType,primaryType,relatedKey,primaryKey);
+                string fetchXML = String.Format(fetchTemplate, relatedType, primaryType, relatedKey, primaryKey);
 
                 //Entity relatedRecord
                 toReturn = _orgService.RetrieveMultiple(new FetchExpression(fetchXML));
             }
-            catch (Exception err) { throw new Exception("Error in getRelatedRecords : "+err.Message); }
+            catch (Exception err) { throw new Exception("Error in getRelatedRecords : " + err.Message); }
 
             return toReturn;
         }//close getRelatedRecords
 
-        private PdfSharp.Pdf.PdfString mapTextField(PDFFillMeta.textMapField passedField, Entity passedRecord)
+        private string mapTextField(PDFFillMeta.textMapField passedField, Entity passedRecord)
         {
-            PdfSharp.Pdf.PdfString toReturn = new PdfString();
+            string toReturn;
 
             if (passedField.isConcat)
-            { 
+            {
                 //if this is a concat field that means the crmAttribute is a string of multiple CRM attribute names that need to be retrieved seperately and added together
                 StringBuilder toSetPDF = new StringBuilder();
                 string[] crmFields = passedField.crmAttributeName.Split(new char[] { ',' });
@@ -407,13 +409,13 @@ namespace CLEARPDF_webAPI2.Controllers
                 {
                     toSetPDF.AppendLine((string)passedRecord[indCrmField] + " ");
                 }
-                toReturn = new PdfSharp.Pdf.PdfString(toSetPDF.ToString());
+                toReturn = toSetPDF.ToString();
 
             }
-            else if (passedField.isDate) { toReturn = new PdfSharp.Pdf.PdfString(((DateTime)passedRecord[passedField.crmAttributeName]).ToShortDateString()); }
-            else if (passedField.isEntityRef) { toReturn = new PdfSharp.Pdf.PdfString(((EntityReference)passedRecord[passedField.crmAttributeName]).Name); }
-            else if (passedField.isMoney) { toReturn = new PdfSharp.Pdf.PdfString( ((Money)passedRecord[passedField.crmAttributeName]).Value.ToString() ); }
-            else { toReturn = new PdfSharp.Pdf.PdfString((string)passedRecord[passedField.crmAttributeName]); }
+            else if (passedField.isDate) { toReturn = ((DateTime)passedRecord[passedField.crmAttributeName]).ToShortDateString(); }
+            else if (passedField.isEntityRef) { toReturn = ((EntityReference)passedRecord[passedField.crmAttributeName]).Name; }
+            else if (passedField.isMoney) { toReturn = ((Money)passedRecord[passedField.crmAttributeName]).Value.ToString(); }
+            else { toReturn = (string)passedRecord[passedField.crmAttributeName]; }
 
             return toReturn;
         }//close mapTextField

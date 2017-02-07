@@ -20,7 +20,7 @@ namespace PDFMeta
         {
 
             /*  SAMPLE subGrid PDF MetaObj  */
-            
+            /*
             PDFFillMeta templateXML = new PDFFillMeta();
             templateXML.CRMEntityName = "clear_monetarycontributions";
             templateXML.PDFFileName = "460SchedA";
@@ -239,9 +239,9 @@ namespace PDFMeta
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
-
+            */
             /*  SAMPLE PDFFill MetaObj    */
-            /*
+            
             PDFFillMeta templateXML = new PDFFillMeta();
             templateXML.CRMEntityName = "clear_campaignstatement";
             templateXML.PDFFileName = "casos460";
@@ -298,7 +298,7 @@ namespace PDFMeta
             sampleTextField3.crmAttributeName = "clear_streetaddress";
             sampleTextField3.acroFieldName = "pg1-3 comm street address";
             SampleTextFieldList.Add(sampleTextField3);
-
+            /*
             PDFFillMeta.textMapField sampleTextField4 = new PDFFillMeta.textMapField();
             sampleTextField4.crmAttributeName = "clear_city";
             sampleTextField4.acroFieldName = "pg1-3 comm city";
@@ -308,7 +308,7 @@ namespace PDFMeta
             sampleTextField5.crmAttributeName = "clear_state";
             sampleTextField5.acroFieldName = "pg1-3 comm state";
             SampleTextFieldList.Add(sampleTextField5);
-
+            */
             PDFFillMeta.textMapField sampleTextField6 = new PDFFillMeta.textMapField();
             sampleTextField6.crmAttributeName = "clear_zipcode";
             sampleTextField6.acroFieldName = "pg1-3 comm zip code";
@@ -328,7 +328,7 @@ namespace PDFMeta
             sampleTextField9.crmAttributeName = "clear_treasureraddress";
             sampleTextField9.acroFieldName = "pg1-3 Treas/address";
             SampleTextFieldList.Add(sampleTextField9);
-
+            /*
             PDFFillMeta.textMapField sampleTextField10 = new PDFFillMeta.textMapField();
             sampleTextField10.crmAttributeName = "clear_treasurercity";
             sampleTextField10.acroFieldName = "pg1-3 Teas/city";
@@ -338,7 +338,7 @@ namespace PDFMeta
             sampleTextField11.crmAttributeName = "clear_treasurerstate";
             sampleTextField11.acroFieldName = "pg1-3 Treas/state";
             SampleTextFieldList.Add(sampleTextField11);
-
+            */
             PDFFillMeta.textMapField sampleTextField12 = new PDFFillMeta.textMapField();
             sampleTextField12.crmAttributeName = "clear_treasurerzipcode";
             sampleTextField12.acroFieldName = "pg1-3 Treas/zip code";
@@ -363,6 +363,7 @@ namespace PDFMeta
             PDFFillMeta.textMapField sampleTextField16 = new PDFFillMeta.textMapField();
             sampleTextField16.crmAttributeName = "clear_totalmonetarycontributions";
             sampleTextField16.acroFieldName = "pg3-Col A1";
+            sampleTextField16.isMoney = true;
             SampleTextFieldList.Add(sampleTextField16);
 
             PDFFillMeta.textMapField sampleTextField17 = new PDFFillMeta.textMapField();
@@ -381,19 +382,17 @@ namespace PDFMeta
 
             templateXML.textFields = SampleTextFieldList;
             templateXML.conditionalCheckboxes.Add(sampleCondition1);
-
+            /*
             PDFFillMeta.subGridPDF scheduleA = new PDFFillMeta.subGridPDF();
             scheduleA.relatedEntityName = "clear_monetarycontributions";
             scheduleA.relatedPDF = "460SchedA";
 
             templateXML.subGrids.Add(scheduleA);
-
+            */
 
             XmlSerializer XMLer = new XmlSerializer(templateXML.GetType());
             XMLer.Serialize(Console.Out, templateXML);
-            */
-
-        }
+         }
     }
 
 

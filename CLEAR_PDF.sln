@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMeta", "PDFMeta\PDFMeta.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFMetaObj", "PDFMetaObj\PDFMetaObj.csproj", "{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLEARPDF_itext", "CLEARPDF_itext\CLEARPDF_itext.csproj", "{13CBF1C5-316C-40DF-90EF-B30D0CBFC684}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31314F57-F5E7-4E2C-BDAE-4AF7DFB6509D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13CBF1C5-316C-40DF-90EF-B30D0CBFC684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13CBF1C5-316C-40DF-90EF-B30D0CBFC684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13CBF1C5-316C-40DF-90EF-B30D0CBFC684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13CBF1C5-316C-40DF-90EF-B30D0CBFC684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
